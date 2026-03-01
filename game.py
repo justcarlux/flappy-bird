@@ -158,43 +158,40 @@ class FlyingDuckGame(GameBase):
                 if self.sonido_colision: self.sonido_colision.play()
                 self.finalizar_partida()
 
-    def render(self, surface=None):
+    def render(self):
         # Solución al error de argumento: si no pasan surface, usamos la del SDK
-        if surface is None:
-            surface = self._GameBase__surface
-
         if self.state == "PLAYING":
             # 1. Dibujar Fondo Infinito
-            surface.blit(self.fondo, (self.posicion_fondo, 0))
-            surface.blit(self.fondo, (self.posicion_fondo + self.width, 0))
+            self.surface.blit(self.fondo, (self.posicion_fondo, 0))
+            self.surface.blit(self.fondo, (self.posicion_fondo + self.width, 0))
 
             # 2. Dibujar Tuberías
             for tuberia in self.grupo_tuberias:
-                tuberia.draw(surface)
+                tuberia.draw(self.surface)
 
             # 3. Dibujar Jugador
-            self.todos_los_sprites.draw(surface)
+            self.todos_los_sprites.draw(self.surface)
 
             # 4. Interfaz de Usuario (UI)
             txt_pts = self.fuente.render(f"Puntos: {self.puntuacion}", True, (255, 255, 255))
             txt_rec = self.fuente_pequena.render(f"Récord: {self.record}", True, (255, 215, 0))
-            surface.blit(txt_pts, (20, 20))
-            surface.blit(txt_rec, (20, 75))
+            self.surface.blit(txt_pts, (20, 20))
+            self.surface.blit(txt_rec, (20, 75))
 
         elif self.state == "GAME_OVER":
             # Pantalla de fin de juego
             overlay = pygame.Surface((self.width, self.height))
             overlay.set_alpha(150)
             overlay.fill((0, 0, 0))
-            surface.blit(overlay, (0,0))
+            self.surface.blit(overlay, (0,0))
             
             f_p = pygame.font.SysFont(None, 80).render("PERDISTE", True, (255, 50, 50))
             f_v = self.fuente_pequena.render("Espacio para volver a jugar", True, (255, 255, 255))
             f_e = self.fuente_pequena.render("ESC para volver al menú", True, (200, 200, 200))
             
-            surface.blit(f_p, f_p.get_rect(center=(self.width//2, self.height//2 - 60)))
-            surface.blit(f_v, f_v.get_rect(center=(self.width//2, self.height//2 + 20)))
-            surface.blit(f_e, f_e.get_rect(center=(self.width//2, self.height//2 + 70)))
+            self.surface.blit(f_p, f_p.get_rect(center=(self.width//2, self.height//2 - 60)))
+            self.surface.blit(f_v, f_v.get_rect(center=(self.width//2, self.height//2 + 20)))
+            self.surface.blit(f_e, f_e.get_rect(center=(self.width//2, self.height//2 + 70)))
 
     def finalizar_partida(self):
         """Guarda el récord y cambia el estado"""

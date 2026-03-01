@@ -6,11 +6,6 @@ import pygame
 if not pygame.get_init():
     pygame.init()
 
-# 2. ¡ESTA ES LA LÍNEA QUE FALTA! 
-# Debes definir una resolución (ejemplo 400x600) antes de cargar imágenes.
-# Si tu juego ya define esto internamente, asegúrate de que ocurra ANTES de self.fondo.convert()
-screen = pygame.display.set_mode((400, 600)) 
-
 # Configuración de Metadata
 metadata = (GameMeta()
             .with_title("Flying Duck")
